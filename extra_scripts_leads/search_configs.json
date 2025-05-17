@@ -1,0 +1,14 @@
+[
+  {
+    "room_id": "R1",
+    "query": "Software Company in",
+    "location": "kathmandu,Nepal",
+    "zoom": 12
+  },
+  {
+    "room_id": "R1",
+    "query": "Software Company in",
+    "location": "Pokhara,Nepal",
+    "zoom": 12
+  }
+]

@@ -652,7 +652,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         for part in reversed(location_parts):
             if part in country_mapping:
                 return country_mapping[part]
-        return 'US'  # Default to US if no match
+        return ''  # Default to US if no match
 
     def _process_phone_number(self, raw_phone: str) -> Tuple[str, str]:
         """Validate and format phone number with country code"""
