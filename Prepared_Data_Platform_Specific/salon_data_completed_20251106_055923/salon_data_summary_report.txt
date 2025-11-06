@@ -1,0 +1,20 @@
+Lead Data Preparation Summary Report
+Generated: 2025-11-06 05:59:24
+Input File: Leads_Generated/salon_data.csv
+Total Leads: 554
+
+Segment 'both_email_phone': 45 leads
+  - With Email: 45
+  - With Phone: 45
+  - With Website: 45
+
+Segment 'no_website': 400 leads
+  - With Email: 0
+  - With Phone: 400
+  - With Website: 0
+
+Segment 'single_contact': 109 leads
+  - With Email: 0
+  - With Phone: 109
+  - With Website: 109
+
