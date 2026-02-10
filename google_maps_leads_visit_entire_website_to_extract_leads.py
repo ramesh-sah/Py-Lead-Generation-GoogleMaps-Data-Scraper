@@ -835,10 +835,10 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
             **standardized,
             'Phone': phone_number,
             'Country': self.country_code,
-            'Website': url if url else '',
+            'Website': url if url else 'null',
             'Email': next(iter(emails), 'null'),
-            'mobile_number': mobile,
-            'whatsapp_number': whatsapp
+            'mobile_number': mobile if mobile else 'null',
+            'whatsapp_number': whatsapp if whatsapp else 'null'
         }
 
     def export_csv(self, filename: str) -> None:

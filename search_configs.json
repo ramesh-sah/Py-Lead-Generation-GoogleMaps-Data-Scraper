@@ -1,8 +1,62 @@
 [
+   {
+    "room_id": "manufacturing_kathmandu",
+    "query": "Manufacturing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
   {
-    "room_id": "Salon1",
-    "query": "Restaurant in ",
-    "location": "Biratnagar, Nepal",
+    "room_id": "factory_kathmandu",
+    "query": "Factory in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "textile_kathmandu",
+    "query": "Textile company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "garment_kathmandu",
+    "query": "Garment industry in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "mining_kathmandu",
+    "query": "Mining company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "quarry_kathmandu",
+    "query": "Quarry in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "energy_kathmandu",
+    "query": "Energy company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "solar_kathmandu",
+    "query": "Solar energy company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "wind_farm_kathmandu",
+    "query": "Wind farm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "oil_and_gas_kathmandu",
+    "query": "Oil and gas company in",
+    "location": "Kathmandu, Nepal",
     "zoom": 13
   }
 ]

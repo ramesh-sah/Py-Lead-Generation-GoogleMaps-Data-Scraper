@@ -28,7 +28,7 @@ from py_lead_generation import GoogleMapsEngine
 # System Configuration
 OUTPUT_FILENAME = "rename_this_file_after_completed.csv"  # User-defined filename
 MAX_CONCURRENT_BROWSERS = 1
-REQUEST_TIMEOUT = 80
+REQUEST_TIMEOUT = 180
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 DEFAULT_CONFIG_FILE = "search_configs.json"
 VALID_ZOOM_RANGE = (10, 22)
@@ -868,12 +868,16 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
 
         return {
             **standardized,
-            'Phone': phone_number,
+            'Phone': phone_number if phone_number else 'null',
             'Country': self.country_code,
-            'Website': url if url else '',
+            'Website': url if url else 'null',
             'Email': next(iter(emails), 'null'),
-            'mobile_number': mobile,
-            'whatsapp_number': whatsapp
+            'mobile_number': mobile if mobile else 'null',
+            'whatsapp_number': whatsapp if whatsapp else 'null',
+            'email_contacted':'false',
+            'phone_mobile_contacted':'false',
+            'whatsapp_contacted':'false'
+
         }
 
     def export_csv(self, filename: str) -> None:
@@ -885,7 +889,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         try:
             os.makedirs('Leads_Generated', exist_ok=True)
             full_path = os.path.join('Leads_Generated', filename)
-            fieldnames = ['Title', 'Address', 'Phone', 'Country', 'Website', 'Email', 'mobile_number', 'whatsapp_number']
+            fieldnames = ['Title', 'Address', 'Phone', 'Country', 'Website', 'Email', 'mobile_number', 'whatsapp_number','email_contacted','phone_mobile_contacted','whatsapp_contacted']
 
             # Read existing data
             existing_entries = set()
