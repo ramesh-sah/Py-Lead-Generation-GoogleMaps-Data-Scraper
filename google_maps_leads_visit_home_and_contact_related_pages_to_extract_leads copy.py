@@ -833,73 +833,13 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         tld = email.split('.')[-1]
         return tld in LD_WHITELIST
 
-   
-    def parse_address(self,s):
-        s = s.strip()
-        if not s:
-            return {'street': '', 'city': '', 'postal': None}
-
-        parts = [x.strip() for x in s.split(',') if x.strip()]
-        if not parts:
-            return {'street': '', 'city': '', 'postal': None}
-
-        last = parts[-1]
-
-        # Find rightmost digit
-        i = len(last) - 1
-        while i >= 0 and not last[i].isdigit():
-            i -= 1
-
-        if i <= 0:
-            # No postal code
-            if len(parts) == 1:
-                return {'street': last, 'city': '', 'postal': None}
-            return {
-                'street': ', '.join(parts[:-1]),
-                'city': last,
-                'postal': None
-            }
-
-        j = i
-        while j >= 0 and last[j].isdigit():
-            j -= 1
-
-        postal = last[j+1:i+1]
-        city = last[:j+1].rstrip('-,; ').strip()
-        street = ', '.join(parts[:-1]) if len(parts) > 1 else ''
-
-        return {
-            'street': street,
-            'city': city,
-            'postal': postal
-        }
-        
-    def _is_valid_lead(self, lead: Dict) -> bool:
-        """
-        Change validation rules here only
-        """
-        phone = str(lead.get('Phone', '')).strip().lower()
-        
-
-        # ❌ Reject if phone is empty or null
-        if not phone or phone == 'null':
-            return False
-       
-
-        return True
-
-        
     def _process_lead(self, lead: Dict) -> Dict:
         """Lead processing pipeline"""
         standardized = {
             key: next((lead[field] for field in fields if field in lead), '')
             for key, fields in self.field_map.items()
         }
-
-        # 🔹 Parse address
-        raw_address = standardized.get('Address')
-        address_parsed = self.parse_address(raw_address)
-
+        
         phone_number, country_code = self._process_phone_number(standardized['Phone'])
         raw_url = standardized['Website']
         url = self._normalize_url(raw_url)
@@ -915,41 +855,39 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                 result = self._extract_emails(driver, url)
                 driver.quit()
 
+                # _extract_emails now returns dict-like info
                 if isinstance(result, dict):
                     emails = result.get('emails', set()) or set()
                     mobile = result.get('mobile', '') or ''
                     whatsapp = result.get('whatsapp', '') or ''
                 else:
+                    # backward-compatible fallback
                     emails = set(result) if result else set()
             except Exception as e:
                 print(f"Browser error: {str(e)[:80]}")
 
         return {
             **standardized,
-
-            # 🔹 Structured address fields
-            'street': address_parsed['street'],
-            'city': address_parsed['city'],
-            'postal_code': address_parsed['postal'] or 'null',
-
             'Phone': phone_number if phone_number else 'null',
             'Country': self.country_code,
             'Website': url if url else 'null',
             'Email': next(iter(emails), 'null'),
             'mobile_number': mobile if mobile else 'null',
             'whatsapp_number': whatsapp if whatsapp else 'null',
+            'email_contacted':'false',
+            'phone_mobile_contacted':'false',
+            'whatsapp_contacted':'false',
+            'sure_shots':"null",
+            'potentials_already_have':"",
+            'meeting_fixed':"false",
+            'leads_converted':"false",
+            'follow_up':"null",
+            'comment':""
+          
+            
 
-            'email_contacted': 'false',
-            'phone_mobile_contacted': 'false',
-            'whatsapp_contacted': 'false',
-            'sure_shots': "null",
-            'potentials_already_have': "",
-            'meeting_fixed': "false",
-            'leads_converted': "false",
-            'follow_up': "null",
-            'comment': ""
-        }
-    
+       }
+
     def export_csv(self, filename: str) -> None:
         """Generate consolidated CSV with deduplication"""
         if not self.leads:
@@ -959,29 +897,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         try:
             os.makedirs('Leads_Generated', exist_ok=True)
             full_path = os.path.join('Leads_Generated', filename)
-            fieldnames = [
-                                'Title',
-                                'Address',
-                                'street',
-                                'city',
-                                'postal_code',
-                                'Phone',
-                                'Country',
-                                'Website',
-                                'Email',
-                                'mobile_number',
-                                'whatsapp_number',
-                                'email_contacted',
-                                'phone_mobile_contacted',
-                                'whatsapp_contacted',
-                                'sure_shots',
-                                'potentials_already_have',
-                                'meeting_fixed',
-                                'leads_converted',
-                                'follow_up',
-                                'comment'
-                            ]
-
+            fieldnames = ['Title', 'Address', 'Phone', 'Country', 'Website', 'Email', 'mobile_number', 'whatsapp_number','email_contacted','phone_mobile_contacted','whatsapp_contacted','sure_shots','potentials_already_have','meeting_fixed','leads_converted','follow_up','comment']
 
             # Read existing data
             existing_entries = set()
@@ -993,24 +909,17 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                         entry_tuple = tuple(row.get(field, '') for field in fieldnames)
                         existing_entries.add(entry_tuple)
 
-            
-            
+            # Prepare new entries
             new_leads = []
             for lead in self.leads:
-
-                # 🔹 FILTER HERE
-                if not self._is_valid_lead(lead):
-                    continue
-
                 lead_tuple = tuple(str(lead.get(field, '')) for field in fieldnames)
-
                 if lead_tuple not in existing_entries:
                     new_leads.append(lead)
                     existing_entries.add(lead_tuple)
+
             if not new_leads:
                 print(f"✅ No new leads to add to {filename}")
                 return
-
 
             # Write to file
             write_header = not os.path.exists(full_path)
@@ -1023,8 +932,6 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
             print(f"✅ Added {len(new_leads)} new leads to {full_path} (Total: {len(existing_entries)})")
         except Exception as e:
             print(f"⛔ Export failed: {str(e)}")
-
-
 
 
 def sanitize_filename(text: str) -> str:

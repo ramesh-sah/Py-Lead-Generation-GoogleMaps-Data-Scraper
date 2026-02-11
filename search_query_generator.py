@@ -693,39 +693,39 @@ industries = [
 # ALL 77 DISTRICTS + Major Cities
 # -----------------------------
 districts = [
-    "Kathmandu","Lalitpur","Bhaktapur","Kavrepalanchok","Sindhupalchok","Dolakha","Ramechhap","Sindhuli",
-    "Makwanpur","Chitwan","Nuwakot","Rasuwa","Dhading","Gorkha","Lamjung","Tanahun","Kaski","Manang","Mustang",
-    "Parbat","Baglung","Myagdi","Palpa","Nawalpur","Rupandehi","Kapilvastu","Arghakhanchi","Gulmi",
-    "Dang","Rolpa","Pyuthan","Rukum East","Rukum West","Salyan","Banke","Bardiya","Surkhet","Dailekh","Jajarkot",
-    "Kailali","Kanchanpur","Doti","Achham","Bajhang","Bajura","Dadeldhura","Baitadi","Darchula",
-    "Morang","Sunsari","Jhapa","Ilam","Panchthar","Taplejung","Tehrathum","Dhankuta","Bhojpur","Sankhuwasabha","Solukhumbu",
-    "Saptari","Siraha","Dhanusha","Mahottari","Sarlahi","Rautahat","Bara","Parsa",
-    "Pokhara","Biratnagar","Bharatpur","Itahari","Dharan","Birgunj",
-    "Nepalgunj","Butwal","Dhangadhi","Hetauda","Tulsipur","Gulariya","Ghodaghodi","Lamki","Rajbiraj","Bhimeshwor"
+    "Kathmandu",
+    "Lalitpur",  
+    "Bhaktapur",
+    "Biratnagar",
+    "Dhangadhi",
+    "Pokhara"
+    
+    
 ]
+import os
+import json
 
-# -----------------------------
-# GENERATE TARGETS (FLAT JSON) with query as "Industry in"
-# -----------------------------
-targets = []
+# Create output folder
+output_folder = "nepal_search_config"
+os.makedirs(output_folder, exist_ok=True)
 
 for district in districts:
     district_slug = district.lower().replace(" ", "_")
+    district_targets = []
+
     for industry in industries:
-        targets.append({
-            "room_id": f"{industry['key']}_{district_slug}",
+        district_targets.append({
+            "room_id": f"b2b_target_nepal_{district_slug}",
             "query": f"{industry['query']} in",
             "location": f"{district}, Nepal",
             "zoom": 13
         })
 
-# -----------------------------
-# SAVE TO FILE
-# -----------------------------
-output_file = "nepal_b2b_targets_fixed_query.json"
+    # ✅ Updated filename format
+    filename = f"nepal_b2b_{district_slug}.json"
 
-with open(output_file, "w", encoding="utf-8") as f:
-    json.dump(targets, f, indent=2, ensure_ascii=False)
+    with open(f"{output_folder}/{filename}", "w", encoding="utf-8") as f:
+        json.dump(district_targets, f, indent=2, ensure_ascii=False)
 
-print(f"✅ Generated {len(targets)} targets")
-print(f"📁 Saved to {output_file}")
+print("✅ Nepal B2B district files generated inside 'nepal_search_config' folder.")
+
