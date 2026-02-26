@@ -1,7 +1,109 @@
 [
+{
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Manufacturing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
   {
     "room_id": "b2b_target_nepal_kathmandu",
-    "query": "Garment industry in",
+    "query": "Garment manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Food processing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Pharmaceutical manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Chemical company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Packaging manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Metal fabrication company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Furniture manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Electronics manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Plastic manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Paint manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Cement manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Beverage company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Cosmetics manufacturer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Printing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Trading company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Wholesale distributor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Import export company in",
     "location": "Kathmandu, Nepal",
     "zoom": 13
   }

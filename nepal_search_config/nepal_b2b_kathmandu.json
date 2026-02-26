@@ -1,0 +1,758 @@
+[
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Manufacturing company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Garment manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Food processing company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Pharmaceutical manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Chemical company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Packaging manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Metal fabrication company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Furniture manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Electronics manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Plastic manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Paint manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Cement manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Beverage company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Cosmetics manufacturer in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Printing company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Trading company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Wholesale distributor in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  // {
+  //   "room_id": "b2b_target_nepal_kathmandu",
+  //   "query": "Import export company in",
+  //   "location": "Kathmandu, Nepal",
+  //   "zoom": 13
+  // },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "FMCG distributor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Pharmaceutical distributor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Building materials supplier in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Auto parts distributor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Electrical supplier in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Food distributor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Supermarket in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Electronics store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Pharmacy in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Clothing store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Hardware store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Furniture store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Jewelry store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Car dealership in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Medical store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Sporting goods store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Agribusiness company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Poultry company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Dairy farm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Rice mill in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Flour mill in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Agro processing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Farm supply company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Tea estate in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Sugar mill in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Construction company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Real estate developer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Property management company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Architecture firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Civil engineering firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Interior design firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Infrastructure company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "MEP contractor in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Hospital in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Medical clinic in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Diagnostic center in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Dental clinic in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Pharmaceutical company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Medical equipment supplier in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Pathology lab in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Nursing home in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Veterinary clinic in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "School in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "College in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "University in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Training institute in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Vocational school in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Coaching center in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Education consultancy in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Corporate training company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Logistics company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Freight forwarder in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Trucking company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Courier company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Warehouse company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Customs brokerage company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Shipping company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "3PL logistics company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Cold storage company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Bank in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Microfinance institution in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Cooperative bank in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Insurance company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Accounting firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Tax consulting firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Investment company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Leasing company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Fintech company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Software company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "IT services company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "System integrator in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Telecommunications company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Internet service provider in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Digital agency in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "BPO company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Data center company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Law firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Management consulting firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Recruitment agency in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Marketing agency in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Event management company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Facility management company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Security company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Engineering consultancy in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Audit firm in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Hotel in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Resort in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Travel agency in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Tour operator in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Restaurant chain in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Catering company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Event venue in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Trekking agency in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Energy company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Solar energy company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Oil and gas company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Mining company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Water treatment company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Waste management company in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Auto parts store in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Auto service center in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Fleet operator in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Truck dealer in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Non-governmental organization in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Chamber of commerce in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Cooperative society in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Trade association in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  },
+  {
+    "room_id": "b2b_target_nepal_kathmandu",
+    "query": "Social enterprise in",
+    "location": "Kathmandu, Nepal",
+    "zoom": 13
+  }
+]
