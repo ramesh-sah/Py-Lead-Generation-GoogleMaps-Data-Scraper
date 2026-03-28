@@ -26,7 +26,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from py_lead_generation import GoogleMapsEngine
 
 # System Configuration
-OUTPUT_FILENAME = "rename_this_file_after_completed.csv"  # User-defined filename
+OUTPUT_FILENAME = "nepal_b2b_kathmandu.csv"  # User-defined filename
 MAX_CONCURRENT_BROWSERS = 1
 REQUEST_TIMEOUT = 180
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -888,7 +888,10 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
 
         return True
 
-        
+    def _generate_lead_id(self) -> str:
+        """Generate unique lead ID"""
+        return f"LEAD-{int(time.time() * 1000)}"
+    
     def _process_lead(self, lead: Dict) -> Dict:
         """Lead processing pipeline"""
         standardized = {
@@ -925,6 +928,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                 print(f"Browser error: {str(e)[:80]}")
 
         return {
+            'lead_id': self._generate_lead_id(),   # 🔥 ADD THIS
             **standardized,
 
             # 🔹 Structured address fields
@@ -942,11 +946,20 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
             'email_contacted': 'false',
             'phone_mobile_contacted': 'false',
             'whatsapp_contacted': 'false',
-            'sure_shots': "null",
-            'potentials_already_have': "",
+            'potentials_already_have': "false",
+            
             'meeting_fixed': "false",
+            'meeting_date': "",
+            'meeting_time': "",
+            'meeting_mode': "",            # online/offline
+            'meeting_status': "",          # scheduled/completed/cancelled
+            
+            
             'leads_converted': "false",
-            'follow_up': "null",
+            'conversion_date': "",
+            
+            
+            'next_follow_up_date': "",
             'comment': ""
         }
     
@@ -960,6 +973,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
             os.makedirs('Leads_Generated', exist_ok=True)
             full_path = os.path.join('Leads_Generated', filename)
             fieldnames = [
+                                'lead_id',
                                 'Title',
                                 'Address',
                                 'street',
@@ -974,11 +988,17 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                                 'email_contacted',
                                 'phone_mobile_contacted',
                                 'whatsapp_contacted',
-                                'sure_shots',
+                                
                                 'potentials_already_have',
                                 'meeting_fixed',
+                                'meeting_date',
+                                'meeting_time',
+                                'meeting_mode',
+                                'meeting_status',
+                                  
                                 'leads_converted',
-                                'follow_up',
+                                'conversion_date',
+                                'next_follow_up_date',
                                 'comment'
                             ]
 
