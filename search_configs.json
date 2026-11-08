@@ -1,22 +1,122 @@
 [
+  
+  {
+    "room_id": "RE005",
+    "query": "Real Estate Developer",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE006",
+    "query": "Jagga Dalali",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE007",
+    "query": "Ghar Jagga Kharid Bikri",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE008",
+    "query": "Housing Company",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE009",
+    "query": "Apartment Rental Agency",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE010",
+    "query": "Commercial Property Dealer",
+    "location": "Kathmandu,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE011",
+    "query": "Real Estate Agency",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
+  },
+  
 
   
   {
-    "room_id": "b2b_target_nepal_kathmandu",
-    "query": "Trading company in",
-    "location": "Kathmandu, Nepal",
-    "zoom": 13
+    "room_id": "RE015",
+    "query": "Real Estate Developer",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
   },
   {
-    "room_id": "b2b_target_nepal_kathmandu",
-    "query": "Wholesale distributor in",
-    "location": "Kathmandu, Nepal",
-    "zoom": 13
+    "room_id": "RE016",
+    "query": "Jagga Dalali",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
   },
   {
-    "room_id": "b2b_target_nepal_kathmandu",
-    "query": "Import export company in",
-    "location": "Kathmandu, Nepal",
-    "zoom": 13
+    "room_id": "RE017",
+    "query": "Ghar Jagga Kharid Bikri",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE018",
+    "query": "Housing Company",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
+  },
+  
+  {
+    "room_id": "RE020",
+    "query": "Commercial Property Dealer",
+    "location": "Lalitpur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE021",
+    "query": "Real Estate Agency",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  
+  {
+    "room_id": "RE025",
+    "query": "Real Estate Developer",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE026",
+    "query": "Jagga Dalali",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE027",
+    "query": "Ghar Jagga Kharid Bikri",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE028",
+    "query": "Housing Company",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE029",
+    "query": "Apartment Rental Agency",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
+  },
+  {
+    "room_id": "RE030",
+    "query": "Commercial Property Dealer",
+    "location": "Bhaktapur,Nepal",
+    "zoom": 16
   }
 ]

@@ -15,18 +15,15 @@ import time
 import asyncio
 import phonenumbers
 from datetime import datetime
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse, urljoin
 from typing import Dict, List, Set, Optional, Tuple
-from concurrent.futures import ThreadPoolExecutor
 
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from playwright.async_api import async_playwright, Page
+from bs4 import BeautifulSoup
 from py_lead_generation import GoogleMapsEngine
 
 # System Configuration
-OUTPUT_FILENAME = "nepal_b2b_kathmandu.csv"  # User-defined filename
+OUTPUT_FILENAME = "property_brokers_valley.csv"  # User-defined filename
 MAX_CONCURRENT_BROWSERS = 1
 REQUEST_TIMEOUT = 180
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -82,24 +79,49 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         super().__init__(*args, **kwargs)
         self.leads = []
         self.country_code = self._detect_country()
+        self.output_filename = kwargs.get('output_filename', OUTPUT_FILENAME)
         self.field_map = {
             'Title': ['title', 'Title'],
             'Address': ['address', 'Address'],
             'Phone': ['phone', 'PhoneNumber'],
             'Website': ['website', 'WebsiteURL']
         }
+        self._lead_counter = self._get_max_lead_number()
+
+    def _get_max_lead_number(self) -> int:
+        """Find the highest lead number in the existing CSV"""
+        csv_path = os.path.join('Leads_Generated', self.output_filename)
+        last_number = 0
+        if os.path.exists(csv_path):
+            try:
+                with open(csv_path, 'r', encoding='utf-8-sig') as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        lead_id = str(row.get('lead_id', '')).strip()
+                        match = re.search(r'LEAD-(\d+)', lead_id)
+                        if match:
+                            number = int(match.group(1))
+                            if number > last_number:
+                                last_number = number
+            except Exception:
+                pass
+        return last_number
 
     async def run(self) -> None:
-        """Async execution workflow"""
-        await super().run()
-        
-        loop = asyncio.get_running_loop()
-        with ThreadPoolExecutor(max_workers=MAX_CONCURRENT_BROWSERS) as executor:
-            futures = [
-                loop.run_in_executor(executor, self._process_lead, lead)
-                for lead in self.entries
-            ]
-            self.leads = await asyncio.gather(*futures)
+        """Async execution workflow reusing py_lead_generation browser"""
+        async with async_playwright() as playwright:
+            self.playwright = playwright
+            await self._setup_browser()
+            await self._open_url_and_wait(self.url)
+            urls = await self._get_search_results_urls()
+            self._entries = await self._get_search_results_entries(urls)
+
+            self.leads = []
+            for lead in (self._entries or []):
+                processed = await self._process_lead(lead)
+                self.leads.append(processed)
+
+            await self.browser.close()
 
     def _detect_country(self) -> str:
         """Country code detection"""
@@ -463,61 +485,43 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         
 
 
-    def _scroll_page(self, driver: webdriver.Chrome) -> None:
+    async def _scroll_page(self, page: Page) -> None:
         """Dynamic content loader"""
-        last_height = driver.execute_script("return document.body.scrollHeight")
-        for _ in range(2):  # Limited scroll attempts
-            time.sleep(3)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
-           
-            new_height = driver.execute_script("return document.body.scrollHeight")
-            if new_height == last_height:
-                break
-            last_height = new_height
+        try:
+            last_height = await page.evaluate("document.body.scrollHeight")
+            for _ in range(2):  # Limited scroll attempts
+                await asyncio.sleep(2)
+                await page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
+                await asyncio.sleep(2)
+                new_height = await page.evaluate("document.body.scrollHeight")
+                if new_height == last_height:
+                    break
+                last_height = new_height
+        except Exception:
+            pass
 
-    def _extract_emails(self, driver: webdriver.Chrome, base_url: str) -> dict:
-        """Extract data from contact-related pages only.
+    async def _extract_emails(self, page: Page, base_url: str) -> dict:
+        """Extract data from contact-related pages only with 60s crawl timeout."""
+        start_time = time.time()
+        CRAWL_TIMEOUT = 60
 
-        Returns a dict with keys: 'emails' (set), 'mobile' (str), 'whatsapp' (str).
-        """
         parsed_base = urlparse(base_url)
         base_domain = parsed_base.netloc
         visited = set()
         email_found = None
         mobile_numbers = []
         whatsapp_numbers = []
-        
+
+        # ... (rest of function unchanged, just need to add timeout check in the contact_urls loop)
+
         # Patterns to identify contact-related pages
-        # contact_pattern = re.compile(
-        #     r'(about|contact|reach|connect|connect[-_]?us|'
-        #     r'contact[-_]?us|about[-_]?us|get[-_]?in[-_]?touch|'
-        #     r'support|help|team|staff|location|find[-_]?us|visit)',
-        #     re.IGNORECASE
-        # )
-        # Patterns to identify contact-related pages (Expanded)
         contact_pattern = re.compile(
             r'(about|contact|reach|connect|connect[-_]?us|'
             r'contact[-_]?us|about[-_]?us|get[-_]?in[-_]?touch|'
-            r'support|help|team|staff|location|find[-_]?us|visit|'
-            
-            # --- Direct Contact & Communication ---
-            r'call|email|phone|message|enquir|inquir|feedback|ask|talk|speak|office|branch|'
-            
-            # --- Company & Team Information ---
-            r'who[-_]?we[-_]?are|our[-_]?story|profile|information|overview|company|'
-            
-            # --- Location & Directions ---
-            r'directions|map|address|stores?|offices?|branches?|'
-            
-            # --- Support & Service ---
-            r'faq|customer[-_]?service|service|assist|ticket|'
-            
-            # --- General Information ---
-            r'info|details)',
+            r'support|help|team|staff|location|find[-_]?us|visit)',
             re.IGNORECASE
         )
-        
+
         # Patterns to exclude from crawling
         exclude_patterns = [
             re.compile(r'\.(pdf|jpg|jpeg|png|gif|svg|ico|css|js)$', re.IGNORECASE),
@@ -529,19 +533,21 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
 
         # First, visit the main page to extract contact-related links
         try:
-            driver.get(base_url)
-            self._scroll_page(driver)
-            
+            await page.goto(base_url, timeout=REQUEST_TIMEOUT * 1000, wait_until='domcontentloaded')
+            await self._scroll_page(page)
+
+            html = await page.content()
+            soup = BeautifulSoup(html, 'html.parser')
+            page_text = soup.get_text(separator=' ')
+
             # Extract email from main page
-            page_text = driver.find_element(By.TAG_NAME, 'body').text
-            mailto_links = driver.find_elements(By.XPATH, '//a[starts-with(@href, "mailto:")]')
-            for link in mailto_links:
-                href = link.get_attribute('href')
-                if href:
+            for link in soup.find_all('a', href=True):
+                href = link['href']
+                if href.lower().startswith('mailto:'):
                     email = href.split('mailto:')[1].split('?')[0].strip().lower()
                     if self._is_valid_email(email):
                         email_found = email
-            
+
             # If email not found in mailto links, check page text
             if not email_found:
                 potential_emails = re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', page_text)
@@ -549,140 +555,137 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                     if self._is_valid_email(email):
                         email_found = email.lower()
                         break
-            
+
             # Extract mobile and WhatsApp from main page
             if not mobile_numbers:
-                mobile = self._extract_mobile_from_tel_links(driver)
+                mobile = self._extract_mobile_from_tel_links(soup)
                 if mobile:
                     mobile_numbers.append(mobile)
                 else:
                     mobile = self._extract_mobile_from_text(page_text)
                     if mobile:
                         mobile_numbers.append(mobile)
-            
+
             if not whatsapp_numbers:
-                whatsapp = self._extract_whatsapp_from_page(driver, page_text)
+                whatsapp = self._extract_whatsapp_from_page(soup, page_text)
                 if whatsapp:
                     whatsapp_numbers.append(whatsapp)
-            
+
             # Discover all contact-related links on the main page
-            links = driver.find_elements(By.TAG_NAME, 'a')
             contact_urls = []
-            
-            for link in links:
-                href = link.get_attribute('href')
-                if href:
-                    # Skip if it matches any exclude pattern
-                    if any(pattern.search(href) for pattern in exclude_patterns):
-                        continue
-                        
-                    parsed = urlparse(href)
-                    if parsed.netloc == base_domain:
-                        # Check if the link is contact-related
-                        path_match = contact_pattern.search(parsed.path)
-                        query_match = contact_pattern.search(parsed.query)
-                        text_match = contact_pattern.search(link.text.lower())
-                        
-                        clean_url = urlunparse(parsed._replace(
-                            query='', 
-                            fragment=''
-                        )).rstrip('/')
-                        
-                        if clean_url not in visited and (path_match or query_match or text_match):
-                            contact_urls.append(clean_url)
-            
+            for link in soup.find_all('a', href=True):
+                href = link['href']
+                if any(pattern.search(href) for pattern in exclude_patterns):
+                    continue
+
+                full_url = urljoin(base_url, href)
+                parsed = urlparse(full_url)
+                if parsed.netloc == base_domain:
+                    link_text = link.get_text().strip().lower()
+                    path_match = contact_pattern.search(parsed.path)
+                    query_match = contact_pattern.search(parsed.query)
+                    text_match = contact_pattern.search(link_text)
+
+                    clean_url = urlunparse(parsed._replace(
+                        query='',
+                        fragment=''
+                    )).rstrip('/')
+
+                    if clean_url not in visited and (path_match or query_match or text_match):
+                        contact_urls.append(clean_url)
+
             # Visit each contact-related page
             for url in contact_urls:
+                if time.time() - start_time > CRAWL_TIMEOUT:
+                    print(f"⌛ Crawl timeout reached for {base_url}")
+                    break
                 if url in visited:
                     continue
                 visited.add(url)
-                
+
                 try:
-                    driver.get(url)
-                    self._scroll_page(driver)
-                    
+                    await page.goto(url, timeout=REQUEST_TIMEOUT * 1000, wait_until='domcontentloaded')
+                    await self._scroll_page(page)
+
+                    sub_html = await page.content()
+                    sub_soup = BeautifulSoup(sub_html, 'html.parser')
+                    sub_page_text = sub_soup.get_text(separator=' ')
+
                     # Extract email from this page
                     if not email_found:
-                        mailto_links = driver.find_elements(By.XPATH, '//a[starts-with(@href, "mailto:")]')
-                        for link in mailto_links:
-                            href = link.get_attribute('href')
-                            if href:
+                        for link in sub_soup.find_all('a', href=True):
+                            href = link['href']
+                            if href.lower().startswith('mailto:'):
                                 email = href.split('mailto:')[1].split('?')[0].strip().lower()
                                 if self._is_valid_email(email):
                                     email_found = email
-                    
-                    # If email not found in mailto links, check page text
+
                     if not email_found:
-                        page_text = driver.find_element(By.TAG_NAME, 'body').text
-                        potential_emails = re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', page_text)
+                        potential_emails = re.findall(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', sub_page_text)
                         for email in potential_emails:
                             if self._is_valid_email(email):
                                 email_found = email.lower()
                                 break
-                    else:
-                        # Get page text for phone extraction even if email is found
-                        page_text = driver.find_element(By.TAG_NAME, 'body').text
-                    
+
                     # Extract mobile from this page
                     if not mobile_numbers:
-                        mobile = self._extract_mobile_from_tel_links(driver)
+                        mobile = self._extract_mobile_from_tel_links(sub_soup)
                         if mobile:
                             mobile_numbers.append(mobile)
                         else:
-                            mobile = self._extract_mobile_from_text(page_text)
+                            mobile = self._extract_mobile_from_text(sub_page_text)
                             if mobile:
                                 mobile_numbers.append(mobile)
-                    
+
                     # Extract WhatsApp from this page
                     if not whatsapp_numbers:
-                        whatsapp = self._extract_whatsapp_from_page(driver, page_text)
+                        whatsapp = self._extract_whatsapp_from_page(sub_soup, sub_page_text)
                         if whatsapp:
                             whatsapp_numbers.append(whatsapp)
-                    
+
                     # If we've found all data, we can stop early
                     if email_found and mobile_numbers and whatsapp_numbers:
                         break
-                        
+
                 except Exception as e:
                     print(f"Error processing {url}: {str(e)[:80]}")
                     continue
-                    
+
         except Exception as e:
             print(f"Error processing {base_url}: {str(e)[:80]}")
 
         # Return whatever we found
         return {
-            'emails': ({email_found} if email_found else set()), 
-            'mobile': mobile_numbers[0] if mobile_numbers else '', 
+            'emails': ({email_found} if email_found else set()),
+            'mobile': mobile_numbers[0] if mobile_numbers else '',
             'whatsapp': whatsapp_numbers[0] if whatsapp_numbers else ''
         }
 
-    def _extract_mobile_from_tel_links(self, driver: webdriver.Chrome) -> str:
+    def _extract_mobile_from_tel_links(self, soup: BeautifulSoup) -> str:
         """Extract mobile numbers from tel: links with enhanced logic"""
         fallback_mobile = ''
         mobile_numbers = []
-        
+
         try:
-            # Find all tel: links
-            tel_links = driver.find_elements(By.XPATH, '//a[starts-with(@href, "tel:")]')
-            
+            tel_links = soup.find_all('a', href=re.compile(r'^tel:', re.IGNORECASE))
+
             for tlink in tel_links:
-                thref = tlink.get_attribute('href')
+                thref = tlink.get('href', '')
                 if not thref:
                     continue
-                    
+
                 # Extract the raw number from tel: link
                 raw_num = thref.split('tel:')[1].split('?')[0]
                 formatted, _ = self._process_phone_number(raw_num)
-                
+
                 if not formatted:
                     continue
-                    
+
                 # Try to determine number type; prefer mobile/fixed_line_or_mobile
                 try:
                     parsed_num = phonenumbers.parse(formatted, None)
                     ntype = phonenumbers.number_type(parsed_num)
-                    
+
                     # If it's a mobile number, add to mobile numbers list
                     if ntype in (phonenumbers.NumberType.MOBILE, phonenumbers.NumberType.FIXED_LINE_OR_MOBILE):
                         mobile_numbers.append(formatted)
@@ -693,12 +696,12 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                     # If we can't determine the type, use it as fallback
                     if not fallback_mobile:
                         fallback_mobile = formatted
-                        
+
             # Return the first mobile number if found, otherwise fallback
             return mobile_numbers[0] if mobile_numbers else fallback_mobile
         except Exception:
             pass
-            
+
         return ''
 
     def _extract_mobile_from_text(self, page_text: str) -> str:
@@ -755,19 +758,19 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         # Return the first mobile number if found, otherwise fallback
         return mobile_numbers[0] if mobile_numbers else fallback_mobile
 
-    def _extract_whatsapp_from_page(self, driver: webdriver.Chrome, page_text: str) -> str:
+    def _extract_whatsapp_from_page(self, soup: BeautifulSoup, page_text: str) -> str:
         """Extract WhatsApp numbers with enhanced detection"""
         whatsapp_numbers = []
-        
+
         try:
             # Find all links on the page
-            links = driver.find_elements(By.TAG_NAME, 'a')
-            
+            links = soup.find_all('a', href=True)
+
             for link in links:
-                href = link.get_attribute('href')
+                href = link['href']
                 if not href:
                     continue
-                    
+
                 lower = href.lower()
                 
                 # Check for various WhatsApp link patterns
@@ -830,8 +833,12 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         email = email.lower()
         if any(email.startswith(prefix) for prefix in FORBIDDEN_PREFIXES):
             return False
-        tld = email.split('.')[-1]
-        return tld in LD_WHITELIST
+        # Check TLD (handle com.np etc by checking last 2 parts)
+        parts = email.split('.')
+        if len(parts) < 2: return False
+        tld = '.'.join(parts[-2:])
+        # Check against whitelist (also support simple tlds)
+        return tld in LD_WHITELIST or parts[-1] in LD_WHITELIST
 
    
     def parse_address(self,s):
@@ -889,10 +896,11 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         return True
 
     def _generate_lead_id(self) -> str:
-        """Generate unique lead ID"""
-        return f"LEAD-{int(time.time() * 1000)}"
+        """Generate sequential unique lead ID from in-memory counter"""
+        self._lead_counter += 1
+        return f"LEAD-{self._lead_counter:04d}"
     
-    def _process_lead(self, lead: Dict) -> Dict:
+    async def _process_lead(self, lead: Dict) -> Dict:
         """Lead processing pipeline"""
         standardized = {
             key: next((lead[field] for field in fields if field in lead), '')
@@ -913,10 +921,9 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
 
         if url:
             try:
-                driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-                driver.set_page_load_timeout(REQUEST_TIMEOUT)
-                result = self._extract_emails(driver, url)
-                driver.quit()
+                page = await self.browser.new_page(**self.PAGE_PARAMS)
+                result = await self._extract_emails(page, url)
+                await page.close()
 
                 if isinstance(result, dict):
                     emails = result.get('emails', set()) or set()
@@ -954,6 +961,11 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
             'meeting_mode': "",            # online/offline
             'meeting_status': "",          # scheduled/completed/cancelled
             
+            'quotation_send': "false",
+            'quotation_date': "",
+            'after_quotation_follow_up': "false",
+            'after_quotation_follow_up_date': "",
+            
             
             'leads_converted': "false",
             'conversion_date': "",
@@ -964,7 +976,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
         }
     
     def export_csv(self, filename: str) -> None:
-        """Generate consolidated CSV with deduplication"""
+        """Generate consolidated CSV with deduplication (keyed by Title, Phone, Website)"""
         if not self.leads:
             print("⛔ No results - verify search parameters")
             return
@@ -988,14 +1000,20 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                                 'email_contacted',
                                 'phone_mobile_contacted',
                                 'whatsapp_contacted',
-                                
+
                                 'potentials_already_have',
                                 'meeting_fixed',
                                 'meeting_date',
                                 'meeting_time',
                                 'meeting_mode',
                                 'meeting_status',
-                                  
+
+
+                                'quotation_send',
+                                'quotation_date',
+                                'after_quotation_follow_up',
+                                'after_quotation_follow_up_date',
+
                                 'leads_converted',
                                 'conversion_date',
                                 'next_follow_up_date',
@@ -1003,30 +1021,35 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                             ]
 
 
-            # Read existing data
+            # Read existing data for deduplication based on Title, Phone, Website
             existing_entries = set()
             if os.path.exists(full_path):
                 with open(full_path, 'r', newline='', encoding='utf-8-sig') as f:
                     reader = csv.DictReader(f)
                     for row in reader:
-                        # Create values for expected fields; missing columns default to ''
-                        entry_tuple = tuple(row.get(field, '') for field in fieldnames)
-                        existing_entries.add(entry_tuple)
+                        # Dedup tuple: Title, Phone, Website (normalized/stripped)
+                        key = (
+                            str(row.get('Title', '')).strip().lower(),
+                            str(row.get('Phone', '')).strip().lower(),
+                            str(row.get('Website', '')).strip().lower()
+                        )
+                        existing_entries.add(key)
 
-            
-            
             new_leads = []
             for lead in self.leads:
-
-                # 🔹 FILTER HERE
                 if not self._is_valid_lead(lead):
                     continue
 
-                lead_tuple = tuple(str(lead.get(field, '')) for field in fieldnames)
+                key = (
+                    str(lead.get('Title', '')).strip().lower(),
+                    str(lead.get('Phone', '')).strip().lower(),
+                    str(lead.get('Website', '')).strip().lower()
+                )
 
-                if lead_tuple not in existing_entries:
+                if key not in existing_entries:
                     new_leads.append(lead)
-                    existing_entries.add(lead_tuple)
+                    existing_entries.add(key)
+
             if not new_leads:
                 print(f"✅ No new leads to add to {filename}")
                 return
@@ -1040,7 +1063,7 @@ class EnterpriseLeadGenerator(GoogleMapsEngine):
                     writer.writeheader()
                 writer.writerows(new_leads)
 
-            print(f"✅ Added {len(new_leads)} new leads to {full_path} (Total: {len(existing_entries)})")
+            print(f"✅ Added {len(new_leads)} new leads to {full_path}")
         except Exception as e:
             print(f"⛔ Export failed: {str(e)}")
 
@@ -1051,47 +1074,60 @@ def sanitize_filename(text: str) -> str:
     """Filename sanitization"""
     return re.sub(r'[\\/*?:"<>|]', "", text.replace(",", "_")).strip()[:100]
 
-async def execute_search(query: str, location: str, zoom: int) -> None:
+async def execute_search(query: str, location: str, zoom: int, output_filename: str = None) -> None:
     """Async search orchestration"""
-    print("\n🚀 Enterprise Lead Generator v8.1.1")
+    print(f"\n🚀 Enterprise Lead Generator v8.1.1 - {query}")
     print("★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
-    
+
     try:
         os.makedirs('Leads_Generated', exist_ok=True)
+        # Use provided output filename or fallback
+        filename = output_filename if output_filename else f"{sanitize_filename(query)}_{sanitize_filename(location)}.csv"
+
         engine = EnterpriseLeadGenerator(
             query=query,
             location=location,
-            zoom=max(min(zoom, VALID_ZOOM_RANGE[1]), VALID_ZOOM_RANGE[0])
+            zoom=max(min(zoom, VALID_ZOOM_RANGE[1]), VALID_ZOOM_RANGE[0]),
+            output_filename=filename
         )
-        
-        print("\n🔍 Initiating intelligence gathering...")
+
+        print(f"\n🔍 Initiating intelligence gathering... Output: {filename}")
         await engine.run()
-        
+
         if engine.leads:
-            engine.export_csv(OUTPUT_FILENAME)  # Use predefined filename
+            engine.export_csv(filename)
 
     except KeyboardInterrupt:
         print("\n🛑 Operation terminated by user")
     except Exception as e:
         print(f"\n⛔ System failure: {str(e)}")
-        
+
 def load_configurations(file_path: str) -> List[Dict]:
-    """Config loader"""
+    """Config loader supporting new config structure"""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
-            configs = json.load(f)
-            
+            data = json.load(f)
+
+        # Handle new format (dict with 'searches') or old format (list)
+        if isinstance(data, dict) and 'searches' in data:
+            configs = data['searches']
+            output_filename = data.get('output_filename')
+        else:
+            configs = data
+            output_filename = None
+
         valid_configs = []
         for config in configs:
             try:
                 valid_configs.append({
                     'query': config['query'].strip(),
                     'location': config['location'].strip(),
-                    'zoom': max(min(int(config.get('zoom', 15)), VALID_ZOOM_RANGE[1]), VALID_ZOOM_RANGE[0])
+                    'zoom': max(min(int(config.get('zoom', 15)), VALID_ZOOM_RANGE[1]), VALID_ZOOM_RANGE[0]),
+                    'output_filename': output_filename
                 })
             except Exception:
                 continue
-                
+
         return valid_configs
     except Exception as e:
         print(f"Config error: {str(e)}")
